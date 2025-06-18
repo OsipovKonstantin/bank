@@ -41,12 +41,12 @@ public class CalculatorServiceImpl implements CalculatorService {
         BigDecimal rate = prescoreRate(rateConfig.getRate(), isInsuranceEnabled, isSalaryClient);
 
         Integer term = loanStatementRequestDto.term();
-        BigDecimal amount = loanStatementRequestDto.amount();
-        BigDecimal totalAmount = calculateTotalAmount(amount, term, rate, isInsuranceEnabled);
+        BigDecimal requestedAmount = calculateRequestedAmount(loanStatementRequestDto.amount(), isInsuranceEnabled);
+        BigDecimal totalAmount = calculateTotalAmount(requestedAmount, term, rate);
         BigDecimal monthlyPayment = calculateMonthlyPayment(totalAmount, term);
 
         return new LoanOfferDto(statementId,
-                loanStatementRequestDto.amount(),
+                requestedAmount,
                 totalAmount,
                 term,
                 monthlyPayment,
@@ -64,13 +64,13 @@ public class CalculatorServiceImpl implements CalculatorService {
         BigDecimal rate = prescoreRate(rateConfig.getRate(), isInsuranceEnabled, isSalaryClient);
         rate = scoreRate(rate, scoringDataDto);
 
-        BigDecimal amount = scoringDataDto.amount();
+        BigDecimal requestedAmount = calculateRequestedAmount(scoringDataDto.amount(), isInsuranceEnabled);
         Integer term = scoringDataDto.term();
-        BigDecimal totalAmount = calculateTotalAmount(amount, term, rate, isInsuranceEnabled);
+        BigDecimal totalAmount = calculateTotalAmount(requestedAmount, term, rate);
         BigDecimal monthlyPayment = calculateMonthlyPayment(totalAmount, term);
-        List<PaymentScheduleElementDto> listOfPayments = calculateListOfPayments(term, monthlyPayment, amount, rate);
+        List<PaymentScheduleElementDto> listOfPayments = calculateListOfPayments(term, monthlyPayment, requestedAmount, rate);
         return new CreditDto(
-                amount,
+                requestedAmount,
                 term,
                 monthlyPayment,
                 rate,
@@ -95,7 +95,7 @@ public class CalculatorServiceImpl implements CalculatorService {
             remainingDebt = remainingDebt.subtract(debtPayment).setScale(2, RoundingMode.HALF_UP);
 
             if (remainingDebt.compareTo(BigDecimal.ZERO) < 0) {
-                debtPayment = debtPayment.add(remainingDebt); // уменьшаем переплату
+                debtPayment = debtPayment.add(remainingDebt);
                 remainingDebt = BigDecimal.ZERO;
             }
 
@@ -115,18 +115,18 @@ public class CalculatorServiceImpl implements CalculatorService {
         return rate.divide(BigDecimal.valueOf(12 * 100), 10, RoundingMode.HALF_UP);
     }
 
-    private BigDecimal calculateTotalAmount(BigDecimal amount, Integer term, BigDecimal rate, Boolean isInsuranceEnabled) {
+    private BigDecimal calculateRequestedAmount(BigDecimal requestedAmount, boolean isInsuranceEnabled) {
+        BigDecimal insuranceRate = rateConfig.getInsuranceRate()
+                .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+        BigDecimal insuranseAmount = requestedAmount.multiply(insuranceRate);
+        return isInsuranceEnabled ? requestedAmount.add(insuranseAmount) : requestedAmount;
+    }
+
+    private BigDecimal calculateTotalAmount(BigDecimal amount, Integer term, BigDecimal rate) {
         BigDecimal monthlyRate = calculateMonthlyRate(rate);
         BigDecimal totalAmount = amount.multiply(monthlyRate).multiply(monthlyRate.add(BigDecimal.ONE).pow(term))
                 .divide(monthlyRate.add(BigDecimal.ONE).pow(term).subtract(BigDecimal.ONE),
                         2, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(term));
-
-        BigDecimal insuranceRate = rateConfig.getInsuranceRate()
-                .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
-        BigDecimal insuranseAmount = amount.multiply(insuranceRate);
-        if (isInsuranceEnabled) {
-            totalAmount = totalAmount.add(insuranseAmount);
-        }
         return totalAmount;
     }
 
@@ -174,7 +174,8 @@ public class CalculatorServiceImpl implements CalculatorService {
         if (scoringDataDto.employment().employmentStatus() == EmploymentStatus.UNEMPLOYED) {
             throw new ScoringRejectException("Заявка отклонена: статус занятости — безработный");
         }
-        if (scoringDataDto.amount().compareTo(scoringDataDto.employment().salary().multiply(BigDecimal.valueOf(24))) > 0) {
+        BigDecimal requestedAmount = calculateRequestedAmount(scoringDataDto.amount(), scoringDataDto.isInsuranceEnabled());
+        if (requestedAmount.compareTo(scoringDataDto.employment().salary().multiply(BigDecimal.valueOf(24))) > 0) {
             throw new ScoringRejectException("Заявка отклонена: сумма займа больше, чем 24 зарплаты");
         }
         int age = calculateAge(scoringDataDto.birthdate());
