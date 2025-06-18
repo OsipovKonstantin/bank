@@ -42,14 +42,14 @@ public class CalculatorServiceImpl implements CalculatorService {
 
         Integer term = loanStatementRequestDto.term();
         BigDecimal requestedAmount = calculateRequestedAmount(loanStatementRequestDto.amount(), isInsuranceEnabled);
-        BigDecimal totalAmount = calculateTotalAmount(requestedAmount, term, rate);
-        BigDecimal monthlyPayment = calculateMonthlyPayment(totalAmount, term);
+        BigDecimal monthlyPayment = calculateMonthlyPayment(requestedAmount, term, rate);
+        BigDecimal totalAmount = calculateTotalAmount(monthlyPayment, term);
 
         return new LoanOfferDto(statementId,
-                requestedAmount,
-                totalAmount,
+                requestedAmount.setScale(2, RoundingMode.HALF_UP),
+                totalAmount.setScale(2, RoundingMode.HALF_UP),
                 term,
-                monthlyPayment,
+                monthlyPayment.setScale(2, RoundingMode.HALF_UP),
                 rate,
                 isInsuranceEnabled,
                 isSalaryClient);
@@ -66,15 +66,15 @@ public class CalculatorServiceImpl implements CalculatorService {
 
         BigDecimal requestedAmount = calculateRequestedAmount(scoringDataDto.amount(), isInsuranceEnabled);
         Integer term = scoringDataDto.term();
-        BigDecimal totalAmount = calculateTotalAmount(requestedAmount, term, rate);
-        BigDecimal monthlyPayment = calculateMonthlyPayment(totalAmount, term);
+        BigDecimal monthlyPayment = calculateMonthlyPayment(requestedAmount, term, rate);
+        BigDecimal totalAmount = calculateTotalAmount(monthlyPayment, term);
         List<PaymentScheduleElementDto> listOfPayments = calculateListOfPayments(term, monthlyPayment, requestedAmount, rate);
         return new CreditDto(
-                requestedAmount,
+                requestedAmount.setScale(2, RoundingMode.HALF_UP),
                 term,
-                monthlyPayment,
+                monthlyPayment.setScale(2, RoundingMode.HALF_UP),
                 rate,
-                totalAmount,
+                totalAmount.setScale(2, RoundingMode.HALF_UP),
                 isInsuranceEnabled,
                 isSalaryClient,
                 listOfPayments
@@ -90,22 +90,17 @@ public class CalculatorServiceImpl implements CalculatorService {
         LocalDate currentDate = LocalDate.now();
 
         for (int month = 1; month <= term; month++) {
-            BigDecimal interestPayment = remainingDebt.multiply(monthlyRate).setScale(2, RoundingMode.HALF_UP);
-            BigDecimal debtPayment = monthlyPayment.subtract(interestPayment).setScale(2, RoundingMode.HALF_UP);
-            remainingDebt = remainingDebt.subtract(debtPayment).setScale(2, RoundingMode.HALF_UP);
-
-            if (remainingDebt.compareTo(BigDecimal.ZERO) < 0) {
-                debtPayment = debtPayment.add(remainingDebt);
-                remainingDebt = BigDecimal.ZERO;
-            }
+            BigDecimal interestPayment = remainingDebt.multiply(monthlyRate);
+            BigDecimal debtPayment = monthlyPayment.subtract(interestPayment);
+            remainingDebt = remainingDebt.subtract(debtPayment);
 
             schedule.add(new PaymentScheduleElementDto(
                     month,
                     currentDate.plusMonths(month),
                     monthlyPayment.setScale(2, RoundingMode.HALF_UP),
-                    interestPayment,
-                    debtPayment,
-                    remainingDebt.max(BigDecimal.ZERO)
+                    interestPayment.setScale(2, RoundingMode.HALF_UP),
+                    debtPayment.setScale(2, RoundingMode.HALF_UP),
+                    remainingDebt.setScale(2, RoundingMode.HALF_UP)
             ));
         }
         return schedule;
@@ -117,21 +112,20 @@ public class CalculatorServiceImpl implements CalculatorService {
 
     private BigDecimal calculateRequestedAmount(BigDecimal requestedAmount, boolean isInsuranceEnabled) {
         BigDecimal insuranceRate = rateConfig.getInsuranceRate()
-                .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+                .divide(BigDecimal.valueOf(100), 10, RoundingMode.HALF_UP);
         BigDecimal insuranseAmount = requestedAmount.multiply(insuranceRate);
         return isInsuranceEnabled ? requestedAmount.add(insuranseAmount) : requestedAmount;
     }
 
-    private BigDecimal calculateTotalAmount(BigDecimal amount, Integer term, BigDecimal rate) {
+    private BigDecimal calculateMonthlyPayment(BigDecimal amount, Integer term, BigDecimal rate) {
         BigDecimal monthlyRate = calculateMonthlyRate(rate);
-        BigDecimal totalAmount = amount.multiply(monthlyRate).multiply(monthlyRate.add(BigDecimal.ONE).pow(term))
+        return amount.multiply(monthlyRate).multiply(monthlyRate.add(BigDecimal.ONE).pow(term))
                 .divide(monthlyRate.add(BigDecimal.ONE).pow(term).subtract(BigDecimal.ONE),
-                        2, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(term));
-        return totalAmount;
+                        10, RoundingMode.HALF_UP);
     }
 
-    private BigDecimal calculateMonthlyPayment(BigDecimal totalAmount, Integer term) {
-        return totalAmount.divide(BigDecimal.valueOf(term), 2, RoundingMode.HALF_UP);
+    private BigDecimal calculateTotalAmount(BigDecimal monthlyPayment, Integer term) {
+        return monthlyPayment.multiply(BigDecimal.valueOf(term));
     }
 
     private BigDecimal prescoreRate(BigDecimal rate, boolean isInsuranceEnabled, boolean isSalaryClient) {
