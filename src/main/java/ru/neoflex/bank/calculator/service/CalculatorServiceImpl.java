@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.neoflex.bank.calculator.configuration.RateConfig;
 import ru.neoflex.bank.calculator.exception.ScoringRejectException;
-import ru.neoflex.bank.calculator.model.dto.CreditDto;
-import ru.neoflex.bank.calculator.model.dto.LoanOfferDto;
-import ru.neoflex.bank.calculator.model.dto.LoanStatementRequestDto;
-import ru.neoflex.bank.calculator.model.dto.ScoringDataDto;
+import ru.neoflex.bank.calculator.model.dto.*;
 import ru.neoflex.bank.calculator.model.enums.EmploymentStatus;
 import ru.neoflex.bank.calculator.model.enums.Gender;
 import ru.neoflex.bank.calculator.model.enums.MaritalStatus;
@@ -17,6 +14,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
@@ -70,7 +68,7 @@ public class CalculatorServiceImpl implements CalculatorService {
         Integer term = scoringDataDto.term();
         BigDecimal totalAmount = calculateTotalAmount(amount, term, rate, isInsuranceEnabled);
         BigDecimal monthlyPayment = calculateMonthlyPayment(totalAmount, term);
-
+        List<PaymentScheduleElementDto> listOfPayments = calculateListOfPayments(term, monthlyPayment, amount, rate);
         return new CreditDto(
                 amount,
                 term,
@@ -79,12 +77,46 @@ public class CalculatorServiceImpl implements CalculatorService {
                 totalAmount,
                 isInsuranceEnabled,
                 isSalaryClient,
-                null //List<PaymentScheduleElementDto>
+                listOfPayments
         );
     }
 
+    private List<PaymentScheduleElementDto> calculateListOfPayments(Integer term, BigDecimal monthlyPayment,
+                                                                    BigDecimal totalAmount, BigDecimal rate) {
+        List<PaymentScheduleElementDto> schedule = new ArrayList<>();
+        BigDecimal monthlyRate = calculateMonthlyRate(rate);
+        BigDecimal remainingDebt = totalAmount;
+
+        LocalDate currentDate = LocalDate.now();
+
+        for (int month = 1; month <= term; month++) {
+            BigDecimal interestPayment = remainingDebt.multiply(monthlyRate).setScale(2, RoundingMode.HALF_UP);
+            BigDecimal debtPayment = monthlyPayment.subtract(interestPayment).setScale(2, RoundingMode.HALF_UP);
+            remainingDebt = remainingDebt.subtract(debtPayment).setScale(2, RoundingMode.HALF_UP);
+
+            if (remainingDebt.compareTo(BigDecimal.ZERO) < 0) {
+                debtPayment = debtPayment.add(remainingDebt); // уменьшаем переплату
+                remainingDebt = BigDecimal.ZERO;
+            }
+
+            schedule.add(new PaymentScheduleElementDto(
+                    month,
+                    currentDate.plusMonths(month),
+                    monthlyPayment.setScale(2, RoundingMode.HALF_UP),
+                    interestPayment,
+                    debtPayment,
+                    remainingDebt.max(BigDecimal.ZERO)
+            ));
+        }
+        return schedule;
+    }
+
+    private BigDecimal calculateMonthlyRate(BigDecimal rate) {
+        return rate.divide(BigDecimal.valueOf(12 * 100), 10, RoundingMode.HALF_UP);
+    }
+
     private BigDecimal calculateTotalAmount(BigDecimal amount, Integer term, BigDecimal rate, Boolean isInsuranceEnabled) {
-        BigDecimal monthlyRate = rate.divide(BigDecimal.valueOf(12 * 100), 10, RoundingMode.HALF_UP);
+        BigDecimal monthlyRate = calculateMonthlyRate(rate);
         BigDecimal totalAmount = amount.multiply(monthlyRate).multiply(monthlyRate.add(BigDecimal.ONE).pow(term))
                 .divide(monthlyRate.add(BigDecimal.ONE).pow(term).subtract(BigDecimal.ONE),
                         2, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(term));
