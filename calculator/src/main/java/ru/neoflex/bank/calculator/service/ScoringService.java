@@ -9,10 +9,12 @@ import ru.neoflex.bank.calculator.model.dto.PaymentScheduleElementDto;
 import ru.neoflex.bank.calculator.model.dto.ScoringDataDto;
 import ru.neoflex.bank.calculator.model.enums.EmploymentStatus;
 import ru.neoflex.bank.calculator.util.DateTimeUtils;
+import ru.neoflex.bank.logging.Logging;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+@Logging
 @Service
 @RequiredArgsConstructor
 public class ScoringService {
@@ -47,7 +49,7 @@ public class ScoringService {
         );
     }
 
-    private void validateScoring(ScoringDataDto scoringDataDto) {
+    public void validateScoring(ScoringDataDto scoringDataDto) {
         if (scoringDataDto.employment().employmentStatus() == EmploymentStatus.UNEMPLOYED) {
             throw new ScoringRejectException("Заявка отклонена: статус занятости — безработный");
         }

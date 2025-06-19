@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.neoflex.bank.calculator.configuration.RateConfig;
 import ru.neoflex.bank.calculator.model.dto.LoanOfferDto;
 import ru.neoflex.bank.calculator.model.dto.LoanStatementRequestDto;
+import ru.neoflex.bank.logging.Logging;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
+@Logging
 @Service
 @RequiredArgsConstructor
 public class LoanOfferCalculatorService {

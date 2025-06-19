@@ -1,17 +1,17 @@
 package ru.neoflex.bank.calculator.exception;
 
-
 import jakarta.validation.ConstraintViolationException;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
+import ru.neoflex.bank.logging.ExceptionLogging;
 
+@ExceptionLogging
 @RestControllerAdvice
 public class ErrorHandler {
-
     @ExceptionHandler({ConstraintViolationException.class, ScoringRejectException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse badRequestException(RuntimeException e) {

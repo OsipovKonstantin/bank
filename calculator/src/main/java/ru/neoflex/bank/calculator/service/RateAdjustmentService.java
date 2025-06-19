@@ -8,11 +8,13 @@ import ru.neoflex.bank.calculator.model.enums.Gender;
 import ru.neoflex.bank.calculator.model.enums.MaritalStatus;
 import ru.neoflex.bank.calculator.model.enums.WorkPosition;
 import ru.neoflex.bank.calculator.util.DateTimeUtils;
+import ru.neoflex.bank.logging.Logging;
 
 import java.math.BigDecimal;
 
 import static ru.neoflex.bank.calculator.util.MoneyUtils.*;
 
+@Logging
 @Service
 @RequiredArgsConstructor
 public class RateAdjustmentService {

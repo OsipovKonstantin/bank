@@ -5,12 +5,14 @@ import org.springframework.stereotype.Service;
 import ru.neoflex.bank.calculator.configuration.RateConfig;
 import ru.neoflex.bank.calculator.model.dto.PaymentScheduleElementDto;
 import ru.neoflex.bank.calculator.util.MoneyUtils;
+import ru.neoflex.bank.logging.Logging;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Logging
 @Service
 @RequiredArgsConstructor
 public class AnnuityCalculatorService {
