@@ -10,7 +10,8 @@ import ru.neoflex.bank.calculator.model.dto.CreditDto;
 import ru.neoflex.bank.calculator.model.dto.LoanOfferDto;
 import ru.neoflex.bank.calculator.model.dto.LoanStatementRequestDto;
 import ru.neoflex.bank.calculator.model.dto.ScoringDataDto;
-import ru.neoflex.bank.calculator.service.CalculatorService;
+import ru.neoflex.bank.calculator.service.LoanOfferCalculatorService;
+import ru.neoflex.bank.calculator.service.ScoringService;
 
 import java.util.List;
 
@@ -18,15 +19,16 @@ import java.util.List;
 @RequestMapping("/calculator")
 @RequiredArgsConstructor
 public class CalculatorController {
-    private final CalculatorService calculatorService;
+    private final LoanOfferCalculatorService loanOfferCalculatorService;
+    private final ScoringService scoringService;
 
     @PostMapping("/offers")
     public List<LoanOfferDto> calculateLoanOffers(@RequestBody @Valid LoanStatementRequestDto loanStatementRequestDto) {
-        return calculatorService.calculateLoanOffers(loanStatementRequestDto);
+        return loanOfferCalculatorService.calculateLoanOffers(loanStatementRequestDto);
     }
 
     @PostMapping("/calc")
     public CreditDto calculateCredit(@RequestBody @Valid ScoringDataDto scoringDataDto) {
-        return calculatorService.calculateCredit(scoringDataDto);
+        return scoringService.calculateCredit(scoringDataDto);
     }
 }

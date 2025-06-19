@@ -10,7 +10,7 @@ import ru.neoflex.bank.calculator.model.enums.MaritalStatus;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import static ru.neoflex.bank.calculator.util.DateTimeConstants.DATE_PATTERN;
+import static ru.neoflex.bank.calculator.util.DateTimeUtils.DATE_PATTERN;
 import static ru.neoflex.bank.calculator.util.RegularExpressionConstants.*;
 
 public record ScoringDataDto(

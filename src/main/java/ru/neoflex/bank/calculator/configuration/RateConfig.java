@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @ConfigurationProperties
 public class RateConfig {
     @NotNull
-    private BigDecimal rate;
+    private BigDecimal baseRate;
     @NotNull
     private BigDecimal insuranceRate;
 }
