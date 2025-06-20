@@ -1,5 +1,7 @@
 package ru.neoflex.bank.calculator.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,15 +20,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/calculator")
 @RequiredArgsConstructor
+@Tag(name = "Calculator", description = "API для расчетов кредитных предложений и кредитных расчетов")
 public class CalculatorController {
     private final LoanOfferCalculatorService loanOfferCalculatorService;
     private final ScoringService scoringService;
 
+    @Operation(summary = "Расчет кредитных предложений",
+            description = "Вычисляет список кредитных предложений на основе исходных данных клиента")
     @PostMapping("/offers")
     public List<LoanOfferDto> calculateLoanOffers(@RequestBody @Valid LoanStatementRequestDto loanStatementRequestDto) {
         return loanOfferCalculatorService.calculateLoanOffers(loanStatementRequestDto);
     }
 
+    @Operation(summary = "Финальный расчет кредита",
+            description = "Проводит скоринг клиента и возвращает итоговые параметры кредита")
     @PostMapping("/calc")
     public CreditDto calculateCredit(@RequestBody @Valid ScoringDataDto scoringDataDto) {
         return scoringService.calculateCredit(scoringDataDto);
