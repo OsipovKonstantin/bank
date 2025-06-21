@@ -1,16 +1,16 @@
-package ru.neoflex.bank.calculator.model.dto;
+package ru.neoflex.bank.model.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
-import ru.neoflex.bank.calculator.model.enums.EmploymentStatus;
-import ru.neoflex.bank.calculator.model.enums.WorkPosition;
+import ru.neoflex.bank.model.enums.EmploymentStatus;
+import ru.neoflex.bank.model.enums.WorkPosition;
 
 import java.math.BigDecimal;
 
-import static ru.neoflex.bank.calculator.util.RegularExpressionConstants.TEN_DIGITS;
+import static ru.neoflex.bank.util.RegularExpressionConstants.TEN_DIGITS;
 
 @Builder
 @Schema(description = "Трудовые данные клиента")
@@ -34,5 +34,4 @@ public record EmploymentDto(
         @Schema(description = "Текущий стаж работы в месяцах", example = "8")
         @NotNull(message = "Укажите текущий стаж в месяцах")
         Integer workExperienceCurrent
-) {
-}
+) {}

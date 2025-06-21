@@ -1,8 +1,9 @@
-package ru.neoflex.bank.calculator.model.dto;
+package ru.neoflex.bank.model.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
-import ru.neoflex.bank.calculator.util.MoneyUtils;
+import lombok.With;
+import ru.neoflex.bank.util.MoneyUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

@@ -3,8 +3,8 @@ package ru.neoflex.bank.calculator.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.neoflex.bank.calculator.configuration.RateConfig;
-import ru.neoflex.bank.calculator.model.dto.LoanOfferDto;
-import ru.neoflex.bank.calculator.model.dto.LoanStatementRequestDto;
+import ru.neoflex.bank.model.dto.LoanOfferDto;
+import ru.neoflex.bank.model.dto.LoanStatementRequestDto;
 import ru.neoflex.bank.logging.Logging;
 
 import java.math.BigDecimal;

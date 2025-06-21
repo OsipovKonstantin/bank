@@ -16,7 +16,7 @@
 	<description>bank with microservices, AOP, kafka and CI</description>
 	<url/>
 	<modules>
-		<module>logging-aop</module>
+		<module>common</module>
 		<module>calculator</module>
 	</modules>
 	<properties>

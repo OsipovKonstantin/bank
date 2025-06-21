@@ -1,19 +1,19 @@
-package ru.neoflex.bank.calculator.model.dto;
+package ru.neoflex.bank.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
-import ru.neoflex.bank.calculator.annotation.IsAdult;
-import ru.neoflex.bank.calculator.model.enums.Gender;
-import ru.neoflex.bank.calculator.model.enums.MaritalStatus;
+import ru.neoflex.bank.annotation.IsAdult;
+import ru.neoflex.bank.model.enums.Gender;
+import ru.neoflex.bank.model.enums.MaritalStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import static ru.neoflex.bank.calculator.util.DateTimeUtils.DATE_PATTERN;
-import static ru.neoflex.bank.calculator.util.RegularExpressionConstants.*;
+import static ru.neoflex.bank.util.DateTimeUtils.DATE_PATTERN;
+import static ru.neoflex.bank.util.RegularExpressionConstants.*;
 
 @Builder
 @Schema(description = "Данные для скоринга кредита")

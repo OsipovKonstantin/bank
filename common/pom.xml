@@ -9,8 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>logging-aop</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>common</artifactId>
 
     <dependencies>
         <dependency>

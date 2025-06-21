@@ -2,17 +2,17 @@ package ru.neoflex.bank.calculator.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.neoflex.bank.calculator.model.dto.ScoringDataDto;
-import ru.neoflex.bank.calculator.model.enums.EmploymentStatus;
-import ru.neoflex.bank.calculator.model.enums.Gender;
-import ru.neoflex.bank.calculator.model.enums.MaritalStatus;
-import ru.neoflex.bank.calculator.model.enums.WorkPosition;
-import ru.neoflex.bank.calculator.util.DateTimeUtils;
+import ru.neoflex.bank.model.dto.ScoringDataDto;
+import ru.neoflex.bank.model.enums.EmploymentStatus;
+import ru.neoflex.bank.model.enums.Gender;
+import ru.neoflex.bank.model.enums.MaritalStatus;
+import ru.neoflex.bank.model.enums.WorkPosition;
+import ru.neoflex.bank.util.DateTimeUtils;
 import ru.neoflex.bank.logging.Logging;
 
 import java.math.BigDecimal;
 
-import static ru.neoflex.bank.calculator.util.MoneyUtils.*;
+import static ru.neoflex.bank.util.MoneyUtils.*;
 
 @Logging
 @Service

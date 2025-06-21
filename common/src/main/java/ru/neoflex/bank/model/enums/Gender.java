@@ -1,4 +1,4 @@
-package ru.neoflex.bank.calculator.model.enums;
+package ru.neoflex.bank.model.enums;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

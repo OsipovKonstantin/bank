@@ -1,4 +1,4 @@
-package ru.neoflex.bank.calculator.util;
+package ru.neoflex.bank.util;
 
 import lombok.experimental.UtilityClass;
 

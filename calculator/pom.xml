@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>ru.neoflex</groupId>
-            <artifactId>logging-aop</artifactId>
+            <artifactId>common</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

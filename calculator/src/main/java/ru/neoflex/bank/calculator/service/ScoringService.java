@@ -4,11 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.neoflex.bank.calculator.configuration.RateConfig;
 import ru.neoflex.bank.calculator.exception.ScoringRejectException;
-import ru.neoflex.bank.calculator.model.dto.CreditDto;
-import ru.neoflex.bank.calculator.model.dto.PaymentScheduleElementDto;
-import ru.neoflex.bank.calculator.model.dto.ScoringDataDto;
-import ru.neoflex.bank.calculator.model.enums.EmploymentStatus;
-import ru.neoflex.bank.calculator.util.DateTimeUtils;
+import ru.neoflex.bank.model.dto.CreditDto;
+import ru.neoflex.bank.model.dto.PaymentScheduleElementDto;
+import ru.neoflex.bank.model.dto.ScoringDataDto;
+import ru.neoflex.bank.model.enums.EmploymentStatus;
+import ru.neoflex.bank.util.DateTimeUtils;
 import ru.neoflex.bank.logging.Logging;
 
 import java.math.BigDecimal;
