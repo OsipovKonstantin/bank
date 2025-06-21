@@ -1,11 +1,13 @@
 package ru.neoflex.bank.calculator.model.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import ru.neoflex.bank.calculator.util.MoneyUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Builder
 @Schema(description = "Элемент графика платежей")
 public record PaymentScheduleElementDto(
         @Schema(description = "Номер платежа", example = "1")

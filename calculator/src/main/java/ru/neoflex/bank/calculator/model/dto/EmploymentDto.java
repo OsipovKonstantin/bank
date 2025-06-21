@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import lombok.Builder;
 import ru.neoflex.bank.calculator.model.enums.EmploymentStatus;
 import ru.neoflex.bank.calculator.model.enums.WorkPosition;
 
@@ -11,6 +12,7 @@ import java.math.BigDecimal;
 
 import static ru.neoflex.bank.calculator.util.RegularExpressionConstants.TEN_DIGITS;
 
+@Builder
 @Schema(description = "Трудовые данные клиента")
 public record EmploymentDto(
         @Schema(description = "Трудовой статус", example = "SELF_EMPLOYED")

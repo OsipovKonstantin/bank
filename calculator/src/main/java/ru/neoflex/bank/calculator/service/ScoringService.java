@@ -37,16 +37,15 @@ public class ScoringService {
         BigDecimal totalAmount = annuityCalculatorService.calculateTotalAmount(monthlyPayment, term);
         List<PaymentScheduleElementDto> listOfPayments = annuityCalculatorService.generatePaymentsSchedule(term,
                 monthlyPayment, requestedAmount, rate);
-        return new CreditDto(
-                requestedAmount,
-                term,
-                monthlyPayment,
-                rate,
-                totalAmount,
-                isInsuranceEnabled,
-                isSalaryClient,
-                listOfPayments
-        );
+        return CreditDto.builder()
+                .amount(requestedAmount)
+                .term(term)
+                .monthlyPayment(monthlyPayment)
+                .rate(rate)
+                .psk(totalAmount)
+                .isInsuranceEnabled(isInsuranceEnabled)
+                .isSalaryClient(isSalaryClient)
+                .paymentSchedule(listOfPayments).build();
     }
 
     public void validateScoring(ScoringDataDto scoringDataDto) {

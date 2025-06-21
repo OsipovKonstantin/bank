@@ -1,11 +1,13 @@
 package ru.neoflex.bank.calculator.model.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import ru.neoflex.bank.calculator.util.MoneyUtils;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+@Builder
 @Schema(description = "Параметры выдаваемого кредита")
 public record CreditDto(
         @Schema(description = "Сумма кредита", example = "1000000.50")

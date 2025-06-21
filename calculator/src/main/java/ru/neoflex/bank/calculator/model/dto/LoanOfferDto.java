@@ -1,11 +1,13 @@
 package ru.neoflex.bank.calculator.model.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import ru.neoflex.bank.calculator.util.MoneyUtils;
 
 import java.math.BigDecimal;
 import java.util.UUID;
 
+@Builder
 @Schema(description = "Кредитное предложение")
 public record LoanOfferDto(
         @Schema(description = "Номер заявки", example = "09b84931-b217-426a-a618-4b51af2d3bb1")

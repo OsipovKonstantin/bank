@@ -3,6 +3,7 @@ package ru.neoflex.bank.calculator.model.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
+import lombok.Builder;
 import ru.neoflex.bank.calculator.annotation.IsAdult;
 
 import java.math.BigDecimal;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 import static ru.neoflex.bank.calculator.util.DateTimeUtils.DATE_PATTERN;
 import static ru.neoflex.bank.calculator.util.RegularExpressionConstants.*;
 
+@Builder
 @Schema(description = "Заявка на кредит")
 public record LoanStatementRequestDto(
         @Schema(description = "Запрашиваемая сумма", example = "1000000.50")

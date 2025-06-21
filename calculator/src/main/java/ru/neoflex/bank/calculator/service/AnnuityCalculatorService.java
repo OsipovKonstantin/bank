@@ -48,14 +48,13 @@ public class AnnuityCalculatorService {
             BigDecimal debtPayment = monthlyPayment.subtract(interestPayment);
             remainingDebt = remainingDebt.subtract(debtPayment);
 
-            schedule.add(new PaymentScheduleElementDto(
-                    month,
-                    currentDate.plusMonths(month),
-                    monthlyPayment,
-                    interestPayment,
-                    debtPayment,
-                    remainingDebt
-            ));
+            schedule.add(PaymentScheduleElementDto.builder()
+                    .number(month)
+                    .date(currentDate.plusMonths(month))
+                    .totalPayment(monthlyPayment)
+                    .interestPayment(interestPayment)
+                    .debtPayment(debtPayment)
+                    .remainingDebt(remainingDebt).build());
         }
         return schedule;
     }

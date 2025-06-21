@@ -32,7 +32,7 @@ public class LoanOfferCalculatorService {
     }
 
     public LoanOfferDto calculateLoanOffer(UUID statementId, boolean isInsuranceEnabled, boolean isSalaryClient,
-                                            LoanStatementRequestDto loanStatementRequestDto) {
+                                           LoanStatementRequestDto loanStatementRequestDto) {
         BigDecimal rate = rateAdjustmentService.prescoreRate(rateConfig.getBaseRate(), isInsuranceEnabled,
                 isSalaryClient);
 
@@ -41,13 +41,14 @@ public class LoanOfferCalculatorService {
         BigDecimal monthlyPayment = annuityCalculatorService.calculateMonthlyPayment(requestedAmount, term, rate);
         BigDecimal totalAmount = annuityCalculatorService.calculateTotalAmount(monthlyPayment, term);
 
-        return new LoanOfferDto(statementId,
-                requestedAmount,
-                totalAmount,
-                term,
-                monthlyPayment,
-                rate,
-                isInsuranceEnabled,
-                isSalaryClient);
+        return LoanOfferDto.builder()
+                .statementId(statementId)
+                .requestedAmount(requestedAmount)
+                .totalAmount(totalAmount)
+                .term(term)
+                .monthlyPayment(monthlyPayment)
+                .rate(rate)
+                .isInsuranceEnabled(isInsuranceEnabled)
+                .isSalaryClient(isSalaryClient).build();
     }
 }
