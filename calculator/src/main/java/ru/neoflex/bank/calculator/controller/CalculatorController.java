@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.neoflex.bank.model.dto.CreditDto;
-import ru.neoflex.bank.model.dto.LoanOfferDto;
-import ru.neoflex.bank.model.dto.LoanStatementRequestDto;
-import ru.neoflex.bank.model.dto.ScoringDataDto;
+import ru.neoflex.bank.common.model.dto.CreditDto;
+import ru.neoflex.bank.common.model.dto.LoanOfferDto;
+import ru.neoflex.bank.common.model.dto.LoanStatementRequestDto;
+import ru.neoflex.bank.common.model.dto.ScoringDataDto;
 import ru.neoflex.bank.calculator.service.LoanOfferCalculatorService;
 import ru.neoflex.bank.calculator.service.ScoringService;
 

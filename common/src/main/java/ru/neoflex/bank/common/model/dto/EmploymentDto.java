@@ -1,17 +1,18 @@
-package ru.neoflex.bank.model.dto;
+package ru.neoflex.bank.common.model.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
-import ru.neoflex.bank.model.enums.EmploymentStatus;
-import ru.neoflex.bank.model.enums.WorkPosition;
+import lombok.With;
+import ru.neoflex.bank.common.model.enums.EmploymentStatus;
+import ru.neoflex.bank.common.model.enums.WorkPosition;
+import ru.neoflex.bank.common.util.RegularExpressionConstants;
 
 import java.math.BigDecimal;
 
-import static ru.neoflex.bank.util.RegularExpressionConstants.TEN_DIGITS;
-
+@With
 @Builder
 @Schema(description = "Трудовые данные клиента")
 public record EmploymentDto(
@@ -20,7 +21,7 @@ public record EmploymentDto(
         EmploymentStatus employmentStatus,
         @Schema(description = "ИНН работодателя", example = "7783572942")
         @NotBlank(message = "Введите ИНН работодателя")
-        @Pattern(regexp = TEN_DIGITS, message = "ИНН работодателя должен состоять из 10 цифр")
+        @Pattern(regexp = RegularExpressionConstants.TEN_DIGITS, message = "ИНН работодателя должен состоять из 10 цифр")
         String EmployerINN,
         @Schema(description = "Заработная плата", example = "51400.5")
         @NotNull(message = "Заполните поле заработная плата")

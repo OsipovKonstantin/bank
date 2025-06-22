@@ -1,4 +1,4 @@
-package ru.neoflex.bank.logging;
+package ru.neoflex.bank.common.logging;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class ExceptionLoggingAspect {
-    @Around("@within(ru.neoflex.bank.logging.ExceptionLogging) || @annotation(ru.neoflex.bank.logging.ExceptionLogging)")
+    @Around("@within(ru.neoflex.bank.common.logging.ExceptionLogging) || @annotation(ru.neoflex.bank.common.logging.ExceptionLogging)")
     public Object logMethodCall(ProceedingJoinPoint joinPoint) throws Throwable {
         Object result = joinPoint.proceed();
         log.error("{}", result);

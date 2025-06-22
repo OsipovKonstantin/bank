@@ -4,12 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.neoflex.bank.calculator.configuration.RateConfig;
 import ru.neoflex.bank.calculator.exception.ScoringRejectException;
-import ru.neoflex.bank.model.dto.CreditDto;
-import ru.neoflex.bank.model.dto.PaymentScheduleElementDto;
-import ru.neoflex.bank.model.dto.ScoringDataDto;
-import ru.neoflex.bank.model.enums.EmploymentStatus;
-import ru.neoflex.bank.util.DateTimeUtils;
-import ru.neoflex.bank.logging.Logging;
+import ru.neoflex.bank.common.model.dto.CreditDto;
+import ru.neoflex.bank.common.model.dto.PaymentScheduleElementDto;
+import ru.neoflex.bank.common.model.dto.ScoringDataDto;
+import ru.neoflex.bank.common.model.enums.EmploymentStatus;
+import ru.neoflex.bank.common.util.DateTimeUtils;
+import ru.neoflex.bank.common.logging.Logging;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -52,8 +52,7 @@ public class ScoringService {
         if (scoringDataDto.employment().employmentStatus() == EmploymentStatus.UNEMPLOYED) {
             throw new ScoringRejectException("Заявка отклонена: статус занятости — безработный");
         }
-        BigDecimal requestedAmount = annuityCalculatorService.calculateRequestedAmount(scoringDataDto.amount(),
-                scoringDataDto.isInsuranceEnabled());
+        BigDecimal requestedAmount = scoringDataDto.amount();
         if (requestedAmount.compareTo(scoringDataDto.employment().salary().multiply(BigDecimal.valueOf(24))) > 0) {
             throw new ScoringRejectException("Заявка отклонена: сумма займа больше, чем 24 зарплаты");
         }

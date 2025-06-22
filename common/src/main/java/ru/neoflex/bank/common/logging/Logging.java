@@ -1,4 +1,4 @@
-package ru.neoflex.bank.logging;
+package ru.neoflex.bank.common.logging;
 
 import java.lang.annotation.*;
 

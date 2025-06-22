@@ -1,4 +1,4 @@
-package ru.neoflex.bank.logging;
+package ru.neoflex.bank.common.logging;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -14,7 +14,7 @@ import java.util.stream.IntStream;
 @Component
 @Slf4j
 public class LoggingAspect {
-    @Around("@within(ru.neoflex.bank.logging.Logging) || @annotation(ru.neoflex.bank.logging.Logging)")
+    @Around("@within(ru.neoflex.bank.common.logging.Logging) || @annotation(ru.neoflex.bank.common.logging.Logging)")
     public Object logMethodCall(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         String methodName = signature.getName();

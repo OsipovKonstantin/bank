@@ -1,17 +1,18 @@
-package ru.neoflex.bank.model.dto;
+package ru.neoflex.bank.common.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
-import ru.neoflex.bank.annotation.IsAdult;
+import lombok.With;
+import ru.neoflex.bank.common.annotation.IsAdult;
+import ru.neoflex.bank.common.util.DateTimeUtils;
+import ru.neoflex.bank.common.util.RegularExpressionConstants;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import static ru.neoflex.bank.util.DateTimeUtils.DATE_PATTERN;
-import static ru.neoflex.bank.util.RegularExpressionConstants.*;
-
+@With
 @Builder
 @Schema(description = "Заявка на кредит")
 public record LoanStatementRequestDto(
@@ -25,30 +26,30 @@ public record LoanStatementRequestDto(
         Integer term,
         @Schema(description = "Имя", example = "Иван")
         @NotBlank(message = "Заполните имя")
-        @Pattern(regexp = LATIN_TWO_TO_THIRTY_SYMBOLS, message = "Имя должно быть от 2 до 30 латинских символов")
+        @Pattern(regexp = RegularExpressionConstants.LATIN_TWO_TO_THIRTY_SYMBOLS, message = "Имя должно быть от 2 до 30 латинских символов")
         String firstName,
         @Schema(description = "Фамилия", example = "Петров")
         @NotBlank(message = "Введите фамилию")
-        @Pattern(regexp = LATIN_TWO_TO_THIRTY_SYMBOLS, message = "Фамилия должна быть от 2 до 30 латинских символов")
+        @Pattern(regexp = RegularExpressionConstants.LATIN_TWO_TO_THIRTY_SYMBOLS, message = "Фамилия должна быть от 2 до 30 латинских символов")
         String lastName,
         @Schema(description = "Отчество", example = "Сидорович")
-        @Pattern(regexp = LATIN_TWO_TO_THIRTY_SYMBOLS, message = "Отчество должно быть от 2 до 30 латинских символов")
+        @Pattern(regexp = RegularExpressionConstants.LATIN_TWO_TO_THIRTY_SYMBOLS, message = "Отчество должно быть от 2 до 30 латинских символов")
         String middleName,
         @Schema(description = "Электронная почта", example = "johndoe@gmail.com")
         @NotBlank(message = "Укажите email")
-        @Pattern(regexp = EMAIL_PATTERN, message = "Некорректный email")
+        @Pattern(regexp = RegularExpressionConstants.EMAIL_PATTERN, message = "Некорректный email")
         String email,
         @Schema(description = "Дата рождения", example = "2000-06-30")
         @NotNull(message = "Введите дату рождения")
         @IsAdult(message = "Минимальный возраст 18 лет")
-        @JsonFormat(pattern = DATE_PATTERN)
+        @JsonFormat(pattern = DateTimeUtils.DATE_PATTERN)
         LocalDate birthdate,
         @Schema(description = "Серия паспорта", example = "4013")
         @NotBlank(message = "Заполните серию паспорта")
-        @Pattern(regexp = FOUR_DIGITS, message = "Серия паспорта должна состоять из 4 цифр")
+        @Pattern(regexp = RegularExpressionConstants.FOUR_DIGITS, message = "Серия паспорта должна состоять из 4 цифр")
         String passportSeries,
         @Schema(description = "Номер паспорта", example = "049647")
         @NotBlank(message = "Укажите номер паспорта")
-        @Pattern(regexp = SIX_DIGITS, message = "Номер паспорта должен состоять из 6 цифр")
+        @Pattern(regexp = RegularExpressionConstants.SIX_DIGITS, message = "Номер паспорта должен состоять из 6 цифр")
         String passportNumber
 ) {}

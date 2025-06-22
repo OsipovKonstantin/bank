@@ -2,17 +2,18 @@ package ru.neoflex.bank.calculator.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.neoflex.bank.model.dto.ScoringDataDto;
-import ru.neoflex.bank.model.enums.EmploymentStatus;
-import ru.neoflex.bank.model.enums.Gender;
-import ru.neoflex.bank.model.enums.MaritalStatus;
-import ru.neoflex.bank.model.enums.WorkPosition;
-import ru.neoflex.bank.util.DateTimeUtils;
-import ru.neoflex.bank.logging.Logging;
+import ru.neoflex.bank.common.model.dto.ScoringDataDto;
+import ru.neoflex.bank.common.model.enums.EmploymentStatus;
+import ru.neoflex.bank.common.model.enums.Gender;
+import ru.neoflex.bank.common.model.enums.MaritalStatus;
+import ru.neoflex.bank.common.model.enums.WorkPosition;
+import ru.neoflex.bank.common.util.DateTimeUtils;
+import ru.neoflex.bank.common.logging.Logging;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
-import static ru.neoflex.bank.util.MoneyUtils.*;
+import static ru.neoflex.bank.common.util.MoneyUtils.*;
 
 @Logging
 @Service
@@ -34,7 +35,7 @@ public class RateAdjustmentService {
 
     private BigDecimal adjustForGenderAndAge(BigDecimal rate, Gender gender, int age) {
         if ((gender == Gender.FEMALE && age >= 32 && age <= 60)
-                || (gender == Gender.MALE && age >= 30 && age < 55)) {
+                || (gender == Gender.MALE && age >= 30 && age <= 55)) {
             rate = rate.subtract(WORKING_AGE_DISCOUNT);
         } else if (gender == Gender.NON_BINARY) {
             rate = rate.add(NON_BINARY_GENDER_PENALTY);

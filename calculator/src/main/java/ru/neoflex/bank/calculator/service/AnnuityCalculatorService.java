@@ -3,9 +3,9 @@ package ru.neoflex.bank.calculator.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.neoflex.bank.calculator.configuration.RateConfig;
-import ru.neoflex.bank.model.dto.PaymentScheduleElementDto;
-import ru.neoflex.bank.util.MoneyUtils;
-import ru.neoflex.bank.logging.Logging;
+import ru.neoflex.bank.common.model.dto.PaymentScheduleElementDto;
+import ru.neoflex.bank.common.util.MoneyUtils;
+import ru.neoflex.bank.common.logging.Logging;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

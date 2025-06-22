@@ -1,4 +1,4 @@
-package ru.neoflex.bank.annotation;
+package ru.neoflex.bank.common.annotation;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

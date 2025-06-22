@@ -7,7 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.neoflex.bank.logging.ExceptionLogging;
+import ru.neoflex.bank.common.logging.ExceptionLogging;
 
 @ExceptionLogging
 @RestControllerAdvice

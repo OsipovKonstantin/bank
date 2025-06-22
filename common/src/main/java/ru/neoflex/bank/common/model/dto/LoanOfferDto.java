@@ -1,36 +1,38 @@
-package ru.neoflex.bank.model.dto;
+package ru.neoflex.bank.common.model.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
-import ru.neoflex.bank.util.MoneyUtils;
+import lombok.With;
+import ru.neoflex.bank.common.util.MoneyUtils;
 
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.UUID;
 
+@With
 @Builder
-@Schema(description = "Параметры выдаваемого кредита")
-public record CreditDto(
-        @Schema(description = "Сумма кредита", example = "1000000.50")
-        BigDecimal amount,
+@Schema(description = "Кредитное предложение")
+public record LoanOfferDto(
+        @Schema(description = "Номер заявки", example = "09b84931-b217-426a-a618-4b51af2d3bb1")
+        UUID statementId,
+        @Schema(description = "Запрашиваемая сумма", example = "1000000.50")
+        BigDecimal requestedAmount,
+        @Schema(description = "Полная стоимость кредита (ПСК)", example = "331540.69")
+        BigDecimal totalAmount,
         @Schema(description = "Срок кредита в месяцах", example = "40")
         Integer term,
         @Schema(description = "Ежемесячный платеж", example = "17560.31")
         BigDecimal monthlyPayment,
         @Schema(description = "Ставка по кредиту в %", example = "17.4")
         BigDecimal rate,
-        @Schema(description = "Полная стоимость кредита (ПСК)", example = "331540.69")
-        BigDecimal psk,
         @Schema(description = "Включена ли страховка", example = "true")
         Boolean isInsuranceEnabled,
         @Schema(description = "Являетесь ли зарплатным клиентом", example = "false")
-        Boolean isSalaryClient,
-        @Schema(description = "График платежей")
-        List<PaymentScheduleElementDto> paymentSchedule
+        Boolean isSalaryClient
 ) {
-    public CreditDto {
-        amount = MoneyUtils.moneyScale(amount);
+    public LoanOfferDto {
+        requestedAmount = MoneyUtils.moneyScale(requestedAmount);
+        totalAmount = MoneyUtils.moneyScale(totalAmount);
         monthlyPayment = MoneyUtils.moneyScale(monthlyPayment);
         rate = MoneyUtils.rateScale(rate);
-        psk = MoneyUtils.moneyScale(psk);
     }
 }

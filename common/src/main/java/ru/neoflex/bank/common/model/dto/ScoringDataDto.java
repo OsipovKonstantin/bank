@@ -1,20 +1,21 @@
-package ru.neoflex.bank.model.dto;
+package ru.neoflex.bank.common.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
-import ru.neoflex.bank.annotation.IsAdult;
-import ru.neoflex.bank.model.enums.Gender;
-import ru.neoflex.bank.model.enums.MaritalStatus;
+import lombok.With;
+import ru.neoflex.bank.common.annotation.IsAdult;
+import ru.neoflex.bank.common.model.enums.Gender;
+import ru.neoflex.bank.common.model.enums.MaritalStatus;
+import ru.neoflex.bank.common.util.DateTimeUtils;
+import ru.neoflex.bank.common.util.RegularExpressionConstants;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-import static ru.neoflex.bank.util.DateTimeUtils.DATE_PATTERN;
-import static ru.neoflex.bank.util.RegularExpressionConstants.*;
-
+@With
 @Builder
 @Schema(description = "Данные для скоринга кредита")
 public record ScoringDataDto(
@@ -28,14 +29,14 @@ public record ScoringDataDto(
         Integer term,
         @Schema(description = "Имя", example = "Иван")
         @NotBlank(message = "Заполните имя")
-        @Pattern(regexp = LATIN_TWO_TO_THIRTY_SYMBOLS, message = "Имя должно быть от 2 до 30 латинских символов")
+        @Pattern(regexp = RegularExpressionConstants.LATIN_TWO_TO_THIRTY_SYMBOLS, message = "Имя должно быть от 2 до 30 латинских символов")
         String firstName,
         @Schema(description = "Фамилия", example = "Петров")
         @NotBlank(message = "Укажите фамилию")
-        @Pattern(regexp = LATIN_TWO_TO_THIRTY_SYMBOLS, message = "Имя должно быть от 2 до 30 латинских символов")
+        @Pattern(regexp = RegularExpressionConstants.LATIN_TWO_TO_THIRTY_SYMBOLS, message = "Имя должно быть от 2 до 30 латинских символов")
         String lastName,
         @Schema(description = "Отчество", example = "Сидорович")
-        @Pattern(regexp = LATIN_TWO_TO_THIRTY_SYMBOLS, message = "Имя должно быть от 2 до 30 латинских символов")
+        @Pattern(regexp = RegularExpressionConstants.LATIN_TWO_TO_THIRTY_SYMBOLS, message = "Имя должно быть от 2 до 30 латинских символов")
         String middleName,
         @Schema(description = "Пол", example = "MALE")
         @NotNull(message = "Укажите пол")
@@ -43,19 +44,19 @@ public record ScoringDataDto(
         @Schema(description = "Дата рождения", example = "2000-06-30")
         @NotNull(message = "Введите дату рождения")
         @IsAdult(message = "Минимальный возраст 18 лет")
-        @JsonFormat(pattern = DATE_PATTERN)
+        @JsonFormat(pattern = DateTimeUtils.DATE_PATTERN)
         LocalDate birthdate,
         @Schema(description = "Серия паспорта", example = "4013")
         @NotBlank(message = "Заполните серию паспорта")
-        @Pattern(regexp = FOUR_DIGITS, message = "Серия паспорта должна состоять из 4 цифр")
+        @Pattern(regexp = RegularExpressionConstants.FOUR_DIGITS, message = "Серия паспорта должна состоять из 4 цифр")
         String passportSeries,
         @Schema(description = "Номер паспорта", example = "049647")
         @NotBlank(message = "Укажите номер паспорта")
-        @Pattern(regexp = SIX_DIGITS, message = "Номер паспорта должен состоять из 6 цифр")
+        @Pattern(regexp = RegularExpressionConstants.SIX_DIGITS, message = "Номер паспорта должен состоять из 6 цифр")
         String passportNumber,
         @Schema(description = "Дата выдачи паспорта", example = "2014-07-02")
         @NotNull(message = "Заполните дату выдачи паспорта")
-        @JsonFormat(pattern = DATE_PATTERN)
+        @JsonFormat(pattern = DateTimeUtils.DATE_PATTERN)
         LocalDate passportIssueDate,
         @Schema(description = "Кем выдан паспорт", example = "УФМС России по г. Москве")
         @NotBlank(message = "Введите кем выдан паспорт")
@@ -72,7 +73,7 @@ public record ScoringDataDto(
         EmploymentDto employment,
         @Schema(description = "Номер банковского счета вашей карты", example = "40817810700030001234")
         @NotBlank(message = "Введите номер банковского счета вашей карты")
-        @Pattern(regexp = TWENTY_DIGITS, message = "Номер банковского счета должен состоять из 20 цифр")
+        @Pattern(regexp = RegularExpressionConstants.TWENTY_DIGITS, message = "Номер банковского счета должен состоять из 20 цифр")
         String accountNumber,
         @Schema(description = "Включена ли страховка", example = "true")
         @NotNull(message = "Заполните включается ли страховка на недвижимость")
