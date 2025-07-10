@@ -1,4 +1,4 @@
-package ru.neoflex.calculator.configuration;
+package ru.neoflex.deal.configuration;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
         info = @Info(
                 title = "Bank API",
                 version = "1.0",
-                description = "Documentation for calculator microservice",
+                description = "Documentation for deal microservice",
                 contact = @Contact(
                         name = "Osipov Konstantin",
                         email = "osipowko@gmail.com"
