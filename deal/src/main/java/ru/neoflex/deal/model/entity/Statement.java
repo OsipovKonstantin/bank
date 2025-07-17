@@ -6,7 +6,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import ru.neoflex.deal.model.enums.Status;
 import ru.neoflex.deal.model.jsonb.AppliedOffer;
-import ru.neoflex.deal.model.jsonb.StatusHistory;
+import ru.neoflex.deal.model.jsonb.StatusHistoryElement;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -50,5 +50,5 @@ public class Statement {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(name = "status_history", columnDefinition = "jsonb")
-    private List<StatusHistory> statusHistory;
+    private List<StatusHistoryElement> statusHistory;
 }

@@ -81,4 +81,5 @@ public record ScoringDataDto(
         @Schema(description = "Являетесь ли зарплатным клиентом", example = "false")
         @NotNull(message = "Укажите являетесь ли зарплатным клиентом банка")
         Boolean isSalaryClient
-) {}
+) {
+}

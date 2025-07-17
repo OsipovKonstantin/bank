@@ -35,4 +35,5 @@ public record EmploymentDto(
         @Schema(description = "Текущий стаж работы в месяцах", example = "8")
         @NotNull(message = "Укажите текущий стаж в месяцах")
         Integer workExperienceCurrent
-) {}
+) {
+}

@@ -22,4 +22,5 @@ public record StatementStatusHistoryDto(
         LocalDateTime time,
         @Schema(description = "Способ изменения статуса заявки", example = "MANUAL")
         ChangeType changeType
-) {}
+) {
+}

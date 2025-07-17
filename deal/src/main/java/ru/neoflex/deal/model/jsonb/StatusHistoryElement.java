@@ -13,7 +13,7 @@ import static ru.neoflex.deal.util.DateTimeUtils.DATE_TIME_PATTERN;
 
 @With
 @Builder
-public record StatusHistory(
+public record StatusHistoryElement(
         Status status,
         @JsonFormat(pattern = DATE_TIME_PATTERN)
         LocalDateTime time,

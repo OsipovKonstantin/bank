@@ -6,7 +6,6 @@ import ru.neoflex.deal.model.dto.StatementStatusHistoryDto;
 import ru.neoflex.deal.model.entity.Client;
 import ru.neoflex.deal.model.entity.Statement;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,6 +18,6 @@ public interface StatementMapper {
     @Mapping(target = "creationDate", source = "creationDate")
     @Mapping(target = "appliedOffer", ignore = true)
     @Mapping(target = "sesCode", ignore = true)
-    @Mapping(target = "statusHistory" ,source = "statusHistory")
+    @Mapping(target = "statusHistory", source = "statusHistory")
     Statement toStatement(Client client, LocalDateTime creationDate, List<StatementStatusHistoryDto> statusHistory);
 }

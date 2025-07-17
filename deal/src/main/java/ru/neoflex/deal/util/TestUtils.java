@@ -1,11 +1,11 @@
 package ru.neoflex.deal.util;
 
 import lombok.experimental.UtilityClass;
+import ru.neoflex.deal.model.dto.*;
 import ru.neoflex.deal.model.enums.EmploymentPosition;
 import ru.neoflex.deal.model.enums.EmploymentStatus;
 import ru.neoflex.deal.model.enums.Gender;
 import ru.neoflex.deal.model.enums.MaritalStatus;
-import ru.neoflex.deal.model.dto.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

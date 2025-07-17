@@ -20,4 +20,5 @@ public record EmploymentData(
         Integer workExperienceTotal,
         @JsonProperty("work_experience_current")
         Integer workExperienceCurrent
-) {}
+) {
+}

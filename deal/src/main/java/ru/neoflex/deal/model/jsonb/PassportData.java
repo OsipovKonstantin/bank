@@ -15,4 +15,5 @@ public record PassportData(
         String issueBranch,
         @JsonProperty("issue_date")
         LocalDate issueDate
-) {}
+) {
+}

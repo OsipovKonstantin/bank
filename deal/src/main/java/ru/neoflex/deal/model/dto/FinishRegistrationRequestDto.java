@@ -44,4 +44,5 @@ public record FinishRegistrationRequestDto(
         @Pattern(regexp = RegularExpressionConstants.TWENTY_DIGITS,
                 message = "Номер банковского счета должен состоять из 20 цифр")
         String accountNumber
-) {}
+) {
+}

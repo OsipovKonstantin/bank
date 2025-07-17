@@ -52,4 +52,5 @@ public record LoanStatementRequestDto(
         @NotBlank(message = "Укажите номер паспорта")
         @Pattern(regexp = RegularExpressionConstants.SIX_DIGITS, message = "Номер паспорта должен состоять из 6 цифр")
         String passportNumber
-) {}
+) {
+}
