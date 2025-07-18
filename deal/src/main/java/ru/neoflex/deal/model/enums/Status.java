@@ -2,7 +2,7 @@ package ru.neoflex.deal.model.enums;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@Schema(description = "Статус заявки")
+@Schema(description = "Статус заявки", enumAsRef = true)
 public enum Status {
     PREAPPROVAL,
     APPROVED,

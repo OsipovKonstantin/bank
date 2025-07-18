@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.neoflex.deal.exception.NotFoundException;
 import ru.neoflex.deal.feign.CalculatorFeignClient;
+import ru.neoflex.deal.logging.Logging;
 import ru.neoflex.deal.mapper.*;
 import ru.neoflex.deal.model.dto.*;
 import ru.neoflex.deal.model.entity.Client;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Logging
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -63,12 +65,12 @@ public class DealService {
         statement.setAppliedOffer(appliedOffer);
     }
 
-    private Statement findStatementById(UUID uuid) {
+    public Statement findStatementById(UUID uuid) {
         return statementRepository.findById(uuid).orElseThrow(
                 () -> new NotFoundException(String.format("Заявка с id %s не найдена", uuid)));
     }
 
-    private void setStatus(Statement statement, Status status, ChangeType changeType) {
+    public void setStatus(Statement statement, Status status, ChangeType changeType) {
         statement.setStatus(status);
         StatusHistoryElement statusHistoryElement = StatusHistoryElement.builder()
                 .status(status)
@@ -94,7 +96,7 @@ public class DealService {
         setStatus(statement, Status.CC_APPROVED, ChangeType.AUTOMATIC);
     }
 
-    private Client refreshClient(Client client, FinishRegistrationRequestDto finishRegistrationRequestDto) {
+    public Client refreshClient(Client client, FinishRegistrationRequestDto finishRegistrationRequestDto) {
         PassportData passportData = client.getPassport().getPassportData();
         PassportData newPassportData = passportDataMapper.toFullPassportData(passportData, finishRegistrationRequestDto);
         EmploymentData employmentData = employmentDataMapper.toEmploymentData(finishRegistrationRequestDto.employment());
